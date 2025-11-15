@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat';
+    background-image: linear-gradient(purple, black);
+}
+
+.imagem_ususario {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+}
+
+.campo_login {
+    background-color: rgba(83, 83, 83, 0.253);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 20px;
+    gap: 15px;
+    margin: 90px;
+    width: 500px;
+}
+
+.mensagem{
+    color: white;
+    font-family: 'Montserrat';
+}
+
+input {
+    color: black;
+    font-size: 16px;
+    background-color: rgb(226, 226, 226);
+    text-align: center;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 16px;
+    text-decoration: none;
+    border: 0;
+}
+
+.Btverificar {
+    color: rgb(226, 226, 226);
+    font-family: 'Montserrat';
+    font-size: 16px;
+    background-color: black;
+    padding: 8px;
+    border-radius: 16px;
+    width: 95px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.Btverificar:hover {
+    background-color: rgb(226, 226, 226);
+    color: black;
+}
+
+.BtEntrar {
+    color: rgb(226, 226, 226);
+    font-size: 16px;
+    background-color: black;
+    text-align: center;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 16px;
+    width: 80px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.BtEntrar:hover {
+    background-color: rgb(226, 226, 226);
+    color: black;
+}
+
+a{
+    color: rgb(226, 226, 226);
+    font-size: 16px;
+    background-color: black;
+    text-align: center;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 16px;
+    width: 70px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+}
+
+a:hover{
+    background-color: rgb(226, 226, 226) ;
+    color: black;
+}
+
+.botoesLoginConta {
+    color: gray;
+    margin: 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.botoesLoginConta:hover {
+    color: rgb(226, 226, 226);
+}
+
+.escondido {
+    display: none;
+}

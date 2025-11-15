@@ -2,268 +2,115 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FestiGram - Página Inicial</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
 
-        body {
-            display: flex;
-            min-height: 100vh;
-            background-color: #1f1f1f;
-            color: #fff;
-        }
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="style.css">
 
-        .sidebar {
-            width: 80px;
-            background-color: #4a2f6f;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-        }
+    <!-- CSS LOCALIZAÇÃO -->
+    <link rel="stylesheet" href="localização.css">
 
-        .sidebar svg {
-            width: 40px;
-            height: 40px;
-            margin: 20px 0;
-            cursor: pointer;
-            fill: white;
-            transition: transform 0.2s;
-        }
-
-        .sidebar svg:hover {
-            transform: scale(1.2);
-            fill: #ffcc00;
-        }
-
-        .posts {
-            flex: 1;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        .post {
-            background-color: #2a2a2a;
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-
-        .post:hover {
-            transform: scale(1.05);
-        }
-
-        .post img {
-            width: 100%;
-            display: block;
-        }
-
-        .post-info {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .post-info h3 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .post-info p {
-            font-size: 0.8rem;
-            color: #ccc;
-        }
-
-        .feed {
-            display: none;
-        }
-
-        .posts::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .posts::-webkit-scrollbar-thumb {
-            background-color: #4a2f6f;
-            border-radius: 4px;
-        }
-
-        /* === ESTILO MAPA === */
-        #mapa-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            /* altura total da tela */
-            display: flex;
-            flex-direction: column;
-        }
-
-        #mapa-header {
-            background-color: #4a2f6f;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        #mapa-header h2 {
-            margin-bottom: 10px;
-        }
-
-        #mapa-header .botoes {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        #mapa-header input {
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
-            width: 200px;
-            outline: none;
-        }
-
-        #mapa-header button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #ffcc00;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        #mapa-header button:hover {
-            background-color: #e6b800;
-        }
-
-        #mapa {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-    </style>
-
-    <!-- Biblioteca de mapas Leaflet -->
-
+    <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 </head>
 
 <body>
 
-    <!-- Navbar lateral -->
+    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Perfil -->
         <svg onclick="mostrarFeed('feed-principal')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-
-            <path
-                d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
         </svg>
 
-        <!-- Localização -->
         <svg onclick="mostrarFeed('feed-localizacao')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-
-            <path
-                d="M12 2C8 2 5 5 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-4-3-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z" />
-
+            <path d="M12 2C8 2 5 5 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-4-3-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
         </svg>
 
-        <!-- Configurações -->
         <svg onclick="mostrarFeed('feed-config')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-
-            <path
-                d="M19.4 12.9c.04-.3.06-.61.06-.91s-.02-.61-.06-.91l2.11-1.65a.504.504 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.2l-2.49 1a6.946 6.946 0 0 0-1.56-.91l-.38-2.65a.502.502 0 0 0-.5-.42h-4a.502.502 0 0 0-.5.42l-.38 2.65c-.57.21-1.1.5-1.56.91l-2.49-1a.5.5 0 0 0-.61.2l-2 3.46c-.14.24-.09.55.12.64l2.11 1.65c-.04.3-.06.61-.06.91s.02.61.06.91L2.07 14.6a.504.504 0 0 0-.12.64l2 3.46c.14.24.45.34.61.2l2.49-1c.46.41.99.7 1.56.91l.38 2.65c.05.26.26.42.5.42h4c.24 0 .45-.16.5-.42l.38-2.65c.57-.21 1.1-.5 1.56-.91l2.49 1c.16.14.47.04.61-.2l2-3.46a.504.504 0 0 0-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5S10.07 8.5 12 8.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" />
-
+            <path d="M19.4 12.9c.04-.3.06-.61.06-.91s-.02-.61-.06-.91l2.11-1.65a.504.504 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.2l-2.49 1a6.946 6.946 0 0 0-1.56-.91l-.38-2.65a.502.502 0 0 0-.5-.42h-4a.502.502 0 0 0-.5.42l-.38 2.65c-.57.21-1.1.5-1.56.91l-2.49-1a.5.5 0 0 0-.61.2l-2 3.46c-.14.24-.09.55.12.64l2.11 1.65c-.04.3-.06.61-.06.91s.02.61.06.91L2.07 14.6a.504.504 0 0 0-.12.64l2 3.46c.14.24.45.34.61.2l2.49-1c.46.41.99.7 1.56.91l.38 2.65c.05.26.26.42.5.42h4c.24 0 .45-.16.5-.42l.38-2.65c.57-.21 1.1-.5 1.56-.91l2.49 1c.16.14.47.04.61-.2l2-3.46a.504.504 0 0 0-.12-.64l-2.11-1.65z"/>
         </svg>
     </div>
 
-    <!-- Feed principal (todas as suas imagens) -->
-    <div id="feed-principal" class="posts feed">
-        <div class="post"><img src="transferir (2).jpg">
-            <div class="post-info">
-                <h3>Poaclub</h3>
-                <p>Festa Pink 23/08 22:00h</p>
-            </div>
-        </div>
-        <div class="post"><img src="transferir (1).jpg">
-            <div class="post-info">
-                <h3>Dance Night</h3>
-                <p>DJ Set até 03:00h</p>
-            </div>
-        </div>
-        <div class="post"><img src="h.jpg">
-            <div class="post-info">
-                <h3>NightClub</h3>
-                <p>Drinks especiais!</p>
-            </div>
-        </div>
-        <div class="post"><img src="Neon party.jpg">
-            <div class="post-info">
-                <h3>Neon Party</h3>
-                <p>Glow sticks liberados!</p>
-            </div>
-        </div>
-        <div class="post"><img src="transferir (3).jpg">
-            <div class="post-info">
-                <h3>NUVEM</h3>
-                <p>Espaço novo!</p>
-            </div>
-        </div>
-        <div class="post"><img src="transferir (4).jpg">
-            <div class="post-info">
-                <h3>Live DJ</h3>
-                <p>Música ao vivo</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Feed de localização -->
-    <div id="feed-localizacao" class="feed" style="display:none;">
-        <div id="mapa-container">
-            <header id="mapa-header">
-                <h2>🎉 Festas perto de você!</h2>
-                <div class="botoes">
-                    <input type="text" id="cidadeInput" placeholder="Ex: Porto Alegre">
-                    <button onclick="buscarFestas()">Buscar</button>
-                    <button onclick="usarLocalizacao()">📍 Usar minha localização</button>
+    <!-- FEED PRINCIPAL -->
+    <div id="feed-principal" class="feed">
+        <div class="posts">
+            <div class="post">
+                <img src="imagens/transferir (2).jpg">
+                <div class="post-info">
+                    <h3>Poaclub</h3>
+                    <p>Festa Pink 23/08 22:00h</p>
                 </div>
-            </header>
-            <div id="mapa"></div>
-        </div>
-    </div>
+            </div>
 
+            <div class="post">
+                <img src="imagens/transferir (1).jpg">
+                <div class="post-info">
+                    <h3>Dance Night</h3>
+                    <p>DJ Set até 03:00h</p>
+                </div>
+            </div>
 
-    <!-- Feed de configurações -->
-    <div id="feed-config" class="posts feed">
-        <div class="post">
-            <div class="post-info">
-                <h3>⚙️ Configurações</h3>
-                <p>Ajuste seu perfil, notificações e preferências.</p>
+            <div class="post">
+                <img src="imagens/h.jpg">
+                <div class="post-info">
+                    <h3>NightClub</h3>
+                    <p>Drinks especiais!</p>
+                </div>
+            </div>
+
+            <div class="post">
+                <img src="imagens/Neon party.jpg">
+                <div class="post-info">
+                    <h3>Neon Party</h3>
+                    <p>Glow sticks liberados!</p>
+                </div>
+            </div>
+
+            <div class="post">
+                <img src="imagens/transferir (3).jpg">
+                <div class="post-info">
+                    <h3>NUVEM</h3>
+                    <p>Espaço novo!</p>
+                </div>
+            </div>
+
+            <div class="post">
+                <img src="imagens/transferir (4).jpg">
+                <div class="post-info">
+                    <h3>Live DJ</h3>
+                    <p>Música ao vivo</p>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- FEED LOCALIZAÇÃO -->
+    <div id="feed-localizacao" class="feed" style="display:none;">
+        <header id="mapa-header">
+            <h2>🎉 Festas perto de você!</h2>
+            <div class="botoes">
+                <input type="text" id="cidadeInput" placeholder="Ex: Porto Alegre">
+                <button onclick="buscarFestas()">Buscar</button>
+                <button onclick="usarLocalizacao()">📍 Usar minha localização</button>
+            </div>
+        </header>
 
+        <div id="mapa"></div>
+    </div>
+
+    <!-- FEED CONFIG -->
+    <div id="feed-config" class="feed" style="display:none;">
+        <div class="config-container">
+            <h2>⚙️ Configurações</h2>
+            <p>Ajuste seu perfil, notificações e preferências.</p>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
     <script src="script.js"></script>
-    
-</body>
 
+</body>
 </html>
