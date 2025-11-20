@@ -1,63 +1,49 @@
+require("dotenv").config();
 const express = require("express");
+const mysql = require("mysql2");
 const cors = require("cors");
-const mysql = require("mysql2/promise");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-// 🧩 Conexão com o banco MySQL
-async function conectarBanco() {
-  try {
-    const pool = await mysql.createPool({
-      host: "localhost",
-      user: "root",
-      password: "sua_senha", // substitua
-      database: "postgram"
+// Conexão com MySQL usando variáveis do .env
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
+db.connect((err) => {
+    if (err) {
+        console.log("❌ Erro ao conectar ao banco:", err);
+        return;
+    }
+    console.log("✅ Banco conectado!");
+});
+
+// Rota para salvar login
+app.post("/salvar-login", (req, res) => {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+        return res.status(400).send("Email e senha são obrigatórios.");
+    }
+
+    const sql = "INSERT INTO logins (email, senha) VALUES (?, ?)";
+
+    db.query(sql, [email, senha], (err, result) => {
+        if (err) {
+            console.log("❌ Erro ao salvar:", err);
+            return res.status(500).send("Erro ao salvar login.");
+        }
+
+        res.send("Login salvo com sucesso!");
     });
+});
 
-    console.log("✅ Conexão bem-sucedida com o MySQL!");
-
-    // 🎉 Rotas
-    app.get("/eventos", async (req, res) => {
-      try {
-        const [eventos] = await pool.query(`
-          SELECT e.id, e.foto_postagem, e.horario_evento, e.curtidas,
-                 es.nome AS nome_estabelecimento, es.descricao
-          FROM Eventos_Postagens e
-          JOIN Estabelecimentos es ON e.id_estabelecimento = es.id
-          ORDER BY e.horario_evento DESC
-        `);
-        res.json(eventos);
-      } catch (error) {
-        console.error("Erro ao buscar eventos:", error);
-        res.status(500).json({ error: "Erro ao buscar eventos." });
-      }
-    });
-
-    app.get("/eventos/:nome", async (req, res) => {
-      const nome = req.params.nome;
-      try {
-        const [eventos] = await pool.query(`
-          SELECT e.id, e.foto_postagem, e.horario_evento, e.curtidas,
-                 es.nome AS nome_estabelecimento, es.descricao
-          FROM Eventos_Postagens e
-          JOIN Estabelecimentos es ON e.id_estabelecimento = es.id
-          WHERE LOWER(es.nome) LIKE LOWER(?)
-        `, [`%${nome}%`]);
-        res.json(eventos);
-      } catch (error) {
-        console.error("Erro ao buscar eventos por nome:", error);
-        res.status(500).json({ error: "Erro ao buscar eventos." });
-      }
-    });
-
-    const PORT = 3000;
-    app.listen(PORT, () => console.log(`✅ API rodando em http://localhost:${PORT}`));
-
-  } catch (err) {
-    console.error("❌ Erro na conexão com o banco:", err);
-  }
-}
-
-conectarBanco();
+// Inicializando servidor
+app.listen(3000, () => {
+    console.log("🚀 Servidor rodando em http://localhost:3000");
+});
