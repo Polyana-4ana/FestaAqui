@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link rel="stylesheet" href="/cssLogin.css">
 </head>
 
@@ -12,15 +12,20 @@
     <main>
         <div class="campo_login">
             <img class="imagem_ususario" src="/imagens/17004.png" alt="usuario">
+
             <input type="text" name="email" id="email" placeholder="Email">
             <input type="password" name="senha" id="senha" placeholder="Senha">
-            <p class="mensagem"></p>
+
+            <p class="mensagem escondido"></p>
+
             <button class="Btverificar" type="submit" onclick="login()">Verificar</button>
-            <a class="BtEntrar" href="/index.html">Entrar</a>
-            <h1 class="botoesLoginConta" id="botaoEsqueciSenha" href="">Esqueci minha senha</h1>
-            <h1 class="botoesLoginConta" id="botaoCriarConta" href="">Criar conta</h1>
+            <a class="BtEntrar escondido" href="/index.html">Entrar</a>
+
+            <h1 class="botoesLoginConta" id="botaoEsqueciSenha">Esqueci minha senha</h1>
+            <h1 class="botoesLoginConta" id="botaoCriarConta">Criar conta</h1>
         </div>
     </main>
+
     <script src="jsLogin.js"></script>
 </body>
 
