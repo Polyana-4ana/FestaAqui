@@ -1,20 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat';
 }
 
 body {
     display: flex;
     height: 100vh;
-    background: #1f1f1f;
+    background-image: linear-gradient(90deg, black, purple);
+}
+
+h2{
+    padding-bottom: 5px;
+}
+
+h3{
+    color: white;
 }
 
 /* SIDEBAR */
 .sidebar {
     width: 80px;
-    background: #4a2f6f;
+    background-image: linear-gradient(90deg, black, transparent);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +42,7 @@ body {
 
 .sidebar svg:hover {
     transform: scale(1.15);
-    fill: #ffcc00;
+    fill: purple;
 }
 
 /* FEEDS */
@@ -51,9 +61,10 @@ body {
 }
 
 .post {
-    background: #2a2a2a;
+    background: #80008036;
     border-radius: 15px;
     overflow: hidden;
+    cursor: pointer;
     transition: 0.3s;
 }
 
@@ -79,4 +90,38 @@ body {
 .post-info p {
     font-size: 0.85rem;
     color: #ccc;
+}
+
+.config-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.configurações{
+    color: white;
+}
+
+.img_Bt{
+    width: 30px;
+}
+
+.botoes_config{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: black;
+    font-size: 16px;
+    padding: 8px;
+    background-color: rgb(226, 226, 226);
+    border-radius: 16px;
+    width: fit-content;
+    border: 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botoes_config:hover {
+    transform: scale(1.05);
 }
